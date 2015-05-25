@@ -9,7 +9,7 @@ if you don't do so, you'll not be able to see any other buddies on the LAN.
 for example, shorewall
 ```bash
 cd /etc/shorewall
-vim rules
+sudo vim rules
 ```
 add the following lines:
 
@@ -18,7 +18,10 @@ add the following lines:
 ACCEPT          net             $FW             tcp             4644
 ACCEPT          net             $FW             udp             4644
 ```
-then, sudo sytemctl restart shorewall
+then, 
+```bash
+sudo sytemctl restart shorewall
+```
 
 iptables directly :
 
