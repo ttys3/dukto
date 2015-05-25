@@ -3,12 +3,14 @@ Dukto project from sf: http://sourceforge.net/p/dukto/
 
 ## firewall rules
 
-dukto uses TCP or UDP port 4644 for receiving a message. so ,be aware to open 4644 to everybody on the LAN.
+dukto uses **TCP** or **UDP** port **4644** for receiving a message. so ,be aware to open 4644 to everybody on the LAN.
 if you don't do so, you'll not be able to see any other buddies on the LAN.
 
 for example, shorewall
+```bash
 cd /etc/shorewall
 vim rules
+```
 add the following lines:
 
 ```ini
