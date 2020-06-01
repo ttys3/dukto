@@ -13,9 +13,9 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QApplication>
-#include <QDeclarativeComponent>
-#include <QDeclarativeEngine>
-#include <QDeclarativeContext>
+#include <QQmlComponent>
+#include <QQmlEngine>
+#include <QQmlContext>
 
 #include <qplatformdefs.h> // MEEGO_EDITION_HARMATTAN
 
@@ -77,12 +77,12 @@ QString QmlApplicationViewerPrivate::adjustPath(const QString &path)
     return path;
 }
 
-QmlApplicationViewer::QmlApplicationViewer(QWidget *parent)
-    : QDeclarativeView(parent)
+QmlApplicationViewer::QmlApplicationViewer(QQuickWidget *parent)
+    : QQuickWidget(parent)
     , d(new QmlApplicationViewerPrivate())
 {
     connect(engine(), SIGNAL(quit()), SLOT(close()));
-    setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     // Qt versions prior to 4.8.0 don't have QML/JS debugging services built in
 #if defined(QMLJSDEBUGGER) && QT_VERSION < 0x040800

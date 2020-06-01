@@ -29,12 +29,12 @@ class DuktoWindow : public QmlApplicationViewer
     Q_OBJECT
 
 public:
-    explicit DuktoWindow(QWidget *parent = 0);
+    explicit DuktoWindow(QQuickWidget *parent = 0);
     void setGuiBehindReference(GuiBehind* ref);
     inline EcWin7* win7() { return &mWin7; }
 
 protected:
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     bool winEvent(MSG * message, long * result);
 #endif
     void dragEnterEvent(QDragEnterEvent *event);

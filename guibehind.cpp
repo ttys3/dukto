@@ -25,33 +25,21 @@
 #include "updateschecker.h"
 
 #include <QHash>
-#include <QDeclarativeView>
-#include <QDeclarativeContext>
+#include <QQuickWidget>
+#include <QQmlContext>
 #include <QTimer>
 #include <QDesktopServices>
 #include <QDir>
 #include <QFileDialog>
 #include <QClipboard>
 #include <QApplication>
-#include <QDeclarativeProperty>
+#include <QQmlProperty>
 #include <QGraphicsObject>
 #include <QRegExp>
 #include <QThread>
 #include <QTemporaryFile>
 #include <QDesktopWidget>
-#if defined(Q_WS_S60)
-#define SYMBIAN
-#endif
-
-#if defined(Q_WS_SIMULATOR)
-#define SYMBIAN
-#endif
-
-#ifdef SYMBIAN
-#include <QNetworkConfigurationManager>
-#include <QNetworkConfiguration>
-#include <QMessageBox>
-#endif
+#include <QDateTime>
 
 #define NETWORK_PORT 4644 // 6742
 
@@ -128,9 +116,7 @@ GuiBehind::GuiBehind(DuktoWindow* view) :
     // Load GUI
     view->setSource(QUrl("qrc:/qml/dukto/Dukto.qml"));
     //view->setSource(QUrl::fromLocalFile("c:/users/emanuele/documenti/dukto/qml/dukto/Dukto.qml"));
-#ifndef Q_WS_S60
     view->restoreGeometry(mSettings->windowGeometry());
-#endif
 
     // Start random rotate
     mShowBackTimer = new QTimer(this);
@@ -284,18 +270,6 @@ void GuiBehind::changeDestinationFolder()
     QString dirname = QFileDialog::getExistingDirectory(mView, "Change folder", ".",
         QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     if (dirname == "") return;
-
-#ifdef SYMBIAN
-    // Disable saving on C:
-    if (dirname.toUpper().startsWith("C:")) {
-
-        setMessagePageTitle("Destination");
-        setMessagePageText("Receiving data on C: is disabled for security reasons. Please select another destination folder.");
-        setMessagePageBackState("settings");
-        emit gotoMessagePage();
-        return;
-    }
-#endif
 
     // Set the new folder as current
     QDir::setCurrent(dirname);

@@ -25,8 +25,9 @@
 #include <QDragMoveEvent>
 #include <QDragLeaveEvent>
 #include <QDropEvent>
+#include <QMimeData>
 
-DuktoWindow::DuktoWindow(QWidget *parent) :
+DuktoWindow::DuktoWindow(QQuickWidget *parent) :
     QmlApplicationViewer(parent), mGuiBehind(NULL)
 {
     // Configure window
@@ -43,7 +44,7 @@ DuktoWindow::DuktoWindow(QWidget *parent) :
     mWin7.init(this->winId());
 }
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 bool DuktoWindow::winEvent(MSG * message, long * result)
 {
     return mWin7.winEvent(message, result);

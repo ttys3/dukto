@@ -42,9 +42,9 @@ void UpdatesChecker::run()
     // Get platform data
     QString osver = "";
     QString os = Platform::getPlatformName().toLower();
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN)
     osver = QString::number(QSysInfo::WindowsVersion);
-#elif defined(Q_WS_MAC)
+#elif defined(Q_OS_MAC)
     osver = QString::number(QSysInfo::MacintoshVersion);
 #elif defined(Q_WS_S60)
     osver = QString::number(QSysInfo::symbianVersion());

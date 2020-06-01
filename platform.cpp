@@ -24,12 +24,12 @@
 #include <QDir>
 #include <QMessageBox>
 
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
 #include <QTemporaryFile>
 #include <CoreServices/CoreServices.h>
 #endif
 
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN)
 #include <windows.h>
 #include <lmaccess.h>
 
@@ -44,30 +44,14 @@ typedef struct _USER_INFO_24 {
 
 #endif
 
-#if defined(Q_WS_S60)
-#define SYMBIAN
-#include <QSystemDeviceInfo>
-QTM_USE_NAMESPACE
-#endif
-
-#if defined(Q_WS_SIMULATOR)
-#define SYMBIAN
-#endif
-
 // Returns the system username
 QString Platform::getSystemUsername()
 {
-#if defined(SYMBIAN)
-    // Get username from settings
-    Settings s;
-    return s.buddyName();
-#else
-
     // Save in a static variable so that It's always ready
     static QString username = "";
     if (username != "") return username;
 
-#if defined (Q_WS_WIN)
+#if defined (Q_OS_WIN)
 /*    QString un(getenv("USERNAME"));
     if (un != ""){
         USER_INFO_23 *user_info;
@@ -110,7 +94,6 @@ QString Platform::getSystemUsername()
     username = uname;
 
     return uname;
-#endif
 }
 
 // Returns the hostname
@@ -139,11 +122,11 @@ QString Platform::getHostname()
 // Returns the platform name
 QString Platform::getPlatformName()
 {
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN)
     return "Windows";
-#elif defined(Q_WS_MAC)
+#elif defined(Q_OS_MAC)
     return "Macintosh";
-#elif defined(Q_WS_X11)
+#elif defined(Q_OS_LINUX)
     return "Linux";
 #elif defined(Q_WS_S60)
     return "Symbian";
@@ -155,7 +138,7 @@ QString Platform::getPlatformName()
 // Returns the platform avatar path
 QString Platform::getAvatarPath()
 {
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN)
     QString username = getSystemUsername().replace("\\", "+");
     QString path = QString(getenv("LOCALAPPDATA")) + "\\Temp\\" + username + ".bmp";
     if (!QFile::exists(path))
@@ -167,9 +150,9 @@ QString Platform::getAvatarPath()
     if (!QFile::exists(path))
         path = QString(getenv("ALLUSERSPROFILE")) + "\\" + QDir(getenv("APPDATA")).dirName() + "\\Microsoft\\User Account Pictures\\Guest.bmp";
     return path;
-#elif defined(Q_WS_MAC)
+#elif defined(Q_OS_MAC)
     return getMacTempAvatarPath();
-#elif defined(Q_WS_X11)
+#elif defined(Q_OS_LINUX)
     return getLinuxAvatarPath();
 #elif defined(Q_WS_S60)
     return "";
@@ -182,23 +165,19 @@ QString Platform::getAvatarPath()
 QString Platform::getDefaultPath()
 {
     // For Windows it's the Desktop folder
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN)
     return QString(getenv("USERPROFILE")) + "\\Desktop";
-#elif defined(Q_WS_MAC)
+#elif defined(Q_OS_MAC)
     return QString(getenv("HOME")) + "/Desktop";
-#elif defined(Q_WS_X11)
+#elif defined(Q_OS_LINUX)
     return QString(getenv("HOME"));
-#elif defined(Q_WS_S60)
-    return "E:\\Dukto";
-#elif defined(Q_WS_SIMULATOR)
-    return "D:\\";
 #else
     #error "Unknown default path for this platform"
 #endif
 
 }
 
-#if defined(Q_WS_X11)
+#if defined(Q_OS_LINUX)
 // Special function for Linux
 QString Platform::getLinuxAvatarPath()
 {
@@ -234,7 +213,7 @@ QString Platform::getLinuxAvatarPath()
 }
 #endif
 
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
 static QTemporaryFile macAvatar;
 
 // Special function for OSX
@@ -264,7 +243,7 @@ QString Platform::getMacTempAvatarPath()
 }
 #endif
 
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN)
 
 #include <objbase.h>
 

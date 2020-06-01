@@ -20,9 +20,6 @@
 #define GUIBEHIND_H
 
 #include <QObject>
-#if defined(Q_WS_S60)
-#include <QNetworkSession>
-#endif
 
 #include "buddylistitemmodel.h"
 #include "recentlistitemmodel.h"
