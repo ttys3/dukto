@@ -45,8 +45,6 @@ unix {
 # CONFIG += mobility
 # MOBILITY +=
 
-CONFIG    += qt warn_off release
-
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     guibehind.cpp \
