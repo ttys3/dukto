@@ -28,7 +28,9 @@ int main(int argc, char *argv[])
 #if defined(Q_OS_LINUX)
     // qt5 removed setGraphicsSystem
 //    QApplication::setGraphicsSystem("raster");
+    qDebug("os: linux");
 #elif defined (Q_OS_WIN)
+    qDebug("os: windows");
     qputenv("QML_ENABLE_TEXT_IMAGE_CACHE", "true");
 #endif
 
@@ -39,11 +41,15 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+    qDebug("setActivationWindow");
     DuktoWindow viewer;
     app.setActivationWindow(&viewer, true);
     GuiBehind gb(&viewer);
 
+    qDebug("showExpanded");
     viewer.showExpanded();
+
+    qDebug("installEventFilter");
     app.installEventFilter(&gb);
 
     return app.exec();

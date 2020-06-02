@@ -576,10 +576,11 @@ void GuiBehind::receiveFileCancelled()
 // Event handler to catch the "application activate" event
 bool GuiBehind::eventFilter(QObject *obj, QEvent *event)
 {
-    // On application activatio, I send a broadcast hello
-    if (event->type() == QEvent::ApplicationActivate)
+    // On application activation, I send a broadcast hello
+    if (event->type() == QEvent::ApplicationActivate) {
         mDuktoProtocol.sayHello(QHostAddress::Broadcast);
-
+        qDebug("GuiBehind::eventFilter(): application activate sayHello");
+    }
     return false;
 }
 
@@ -593,6 +594,7 @@ void GuiBehind::changeThemeColor(QString color)
 // Called on application closing event
 void GuiBehind::close()
 {
+    qDebug("application activate sayGoodbye");
     mDuktoProtocol.sayGoodbye();
 }
 

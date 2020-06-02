@@ -58,7 +58,7 @@ class GuiBehind : public QObject
 
 public:
     explicit GuiBehind(DuktoWindow* view);
-    virtual ~GuiBehind();
+    ~GuiBehind() override;
 
     bool canAcceptDrop();
     void sendDroppedFiles(QStringList *files);
@@ -98,10 +98,6 @@ public:
     void setShowUpdateBanner(bool show);
     void setBuddyName(QString name);
     QString buddyName();
-
-#if defined(Q_WS_S60)
-    void initConnection();
-#endif
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
@@ -169,11 +165,6 @@ public slots:
     void resetProgressStatus();
     void abortTransfer();
 
-#if defined(Q_WS_S60)
-    void connectOpened();
-    void connectError(QNetworkSession::SessionError error);
-#endif
-
 private:
     DuktoWindow *mView;
     QTimer *mShowBackTimer;
@@ -208,11 +199,6 @@ private:
     bool prepareStartTransfer(QString *ip, qint16 *port);
     void startTransfer(QStringList files);
     void startTransfer(QString text);
-
-#if defined(Q_WS_S60)
-    QNetworkSession *mNetworkSession;
-#endif
-
 };
 
 #endif // GUIBEHIND_H
